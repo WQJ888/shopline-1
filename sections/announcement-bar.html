@@ -1,0 +1,122 @@
+{{assign "show_announcement" false}}
+{{#with this as |global|}}
+  {{#each section.blocks}}
+    {{#if (trim settings.notice_link_text)}} {{#with global}} {{assign "show_announcement" true}} {{/with}} {{/if}}
+  {{/each}}
+{{/with}}
+
+{{assign "should_display_with_slider" section.settings.enable_autoplay}}
+
+{{snippet "stylesheet" href=(asset_url "section-announcement-bar.css")}}
+
+{{#and show_announcement section.settings.enable_sticky}}
+  <script src="{{asset_url 'section-announcement-bar-sticky-top.js'}}" defer></script>
+{{/and}}
+{{#if should_display_with_slider}}
+  {{snippet "stylesheet" href=(asset_url "lib-splide.min.css")}}
+  <script src="{{asset_url 'lib-splide.min.js'}}" defer></script>
+  <script src="{{asset_url 'section-announcement-bar-slider.js'}}" defer></script>
+{{/if}}
+
+{{#with this as |global|}}
+  {{#if show_announcement}}
+    {{#if should_display_with_slider}}<announcement-bar-slider data-speed="{{section.settings.autoplay_speed}}">{{/if}}
+    {{#if section.settings.enable_sticky}}<announcement-bar-sticky-top>{{/if}}
+    <div class="announcement-bar--container {{#if should_display_with_slider}}splide{{/if}}">
+      {{#if should_display_with_slider}}<div class="splide__track">{{/if}}
+      <div class="announcement-bar--list {{#if should_display_with_slider}}splide__list{{/if}}">
+        {{#each section.blocks}}
+          {{~#if (isTruthy settings.notice_link_text)}}
+            <div
+              class="announcement-bar--item {{#if global.should_display_with_slider}}splide__slide{{/if}}"
+              style="--notice-text-color: {{settings.notice_text_color.red}}, {{settings.notice_text_color.green}}, {{settings.notice_text_color.blue}}; --notice-bg-color: {{settings.notice_bg_color}};"
+              {{{shopline_attributes}}}
+            >
+              {{assign "ele" (ternary (if settings.notice_link) "a" "div")}}
+              <{{ele}}
+                {{#if settings.notice_link}}href="{{settings.notice_link}}"{{/if}}
+                class="body4 announcement--text"
+              >
+                <span class="display-none-tablet">{{settings.notice_link_text}}</span>
+                <span class="display-none-desktop">{{default
+                    settings.notice_link_mb_text
+                    settings.notice_link_text
+                  }}</span>
+              </{{ele}}>
+            </div>
+          {{~/if}}
+        {{/each}}
+      </div>
+      {{#if should_display_with_slider}}</div>{{/if}}
+    </div>
+    {{#if section.settings.enable_sticky}}</announcement-bar-sticky-top>{{/if}}
+    {{#if should_display_with_slider}}</announcement-bar-slider>{{/if}}
+  {{/if}}
+{{/with}}
+{{#schema}}
+{
+  "name": "t:sections.announcement-bar.name",
+  "max_blocks": 12,
+  "settings": [
+    {
+      "type": "switch",
+      "id": "enable_sticky",
+      "default": false,
+      "label": "t:sections.announcement-bar.settings.enable_sticky.label"
+    },
+    {
+      "type": "switch",
+      "id": "enable_autoplay",
+      "default": true,
+      "label": "t:sections.announcement-bar.settings.enable_autoplay.label"
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "default": 5,
+      "max": 10,
+      "min": 3,
+      "step": 1,
+      "label": "t:sections.announcement-bar.settings.autoplay_speed.label"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "icon": "normal",
+      "name": "t:sections.announcement-bar.blocks.item.name",
+      "settings": [
+        {
+          "id": "notice_link_text",
+          "type": "text",
+          "label": "t:sections.announcement-bar.blocks.item.settings.notice_link_text.label",
+          "default": "30-day postage paid returns"
+        },
+        {
+          "id": "notice_link_mb_text",
+          "type": "text",
+          "label": "t:sections.announcement-bar.blocks.item.settings.notice_link_mb_text.label",
+          "info": "t:sections.announcement-bar.blocks.item.settings.notice_link_mb_text.info"
+        },
+        {
+          "type": "url",
+          "id": "notice_link",
+          "label": "t:sections.announcement-bar.blocks.item.settings.notice_link.label"
+        },
+        {
+          "type": "color",
+          "id": "notice_text_color",
+          "label": "t:sections.announcement-bar.blocks.item.settings.notice_text_color.label",
+          "default": "#FFFFFF"
+        },
+        {
+          "type": "color",
+          "id": "notice_bg_color",
+          "label": "t:sections.announcement-bar.blocks.item.settings.notice_bg_color.label",
+          "default": "#000000"
+        }
+      ]
+    }
+  ]
+}
+{{/schema}}

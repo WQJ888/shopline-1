@@ -1,0 +1,37 @@
+{{assign "icon_index_array" (split "1,2,3" ",")}}
+
+<div class="product-icon">
+  {{#with this as |global|}}
+    {{#each icon_index_array as |index|}}
+      {{#with global}}
+        {{assign "icon_key" (append "icon" index)}}
+        {{assign "image_key" (append "image" index)}}
+        {{assign "title_key" (append "title" index)}}
+        {{assign "sub_title_key" (append "sub_title" index)}}
+        {{assign "icon" (get icon_key block.settings)}}
+        {{assign "image" (get image_key block.settings)}}
+        {{assign "title" (get title_key block.settings)}}
+        {{assign "sub_title" (get sub_title_key block.settings)}}
+        {{assign "icon_valid" (if icon "!==" "none")}}
+
+        {{#or icon_valid image title sub_title}}
+          <div class="product-icon__item">
+            {{#or icon_valid image}}
+              <div class="product-icon__image">
+                {{#if image}}
+                  {{snippet "image" data=image}}
+                {{else if icon}}
+                  {{snippet "icon-switch" icon=icon}}
+                {{/if}}
+              </div>
+            {{/or}}
+            <div class="product-icon__text body6">
+              <p class="fw-bold">{{title}}</p>
+              <p>{{sub_title}}</p>
+            </div>
+          </div>
+        {{/or}}
+      {{/with}}
+    {{/each}}
+  {{/with}}
+</div>

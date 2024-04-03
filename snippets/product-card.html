@@ -1,0 +1,172 @@
+{{#comment}}
+  Renders a product card
+
+  Accepts:
+  - product_data: {Object} Product Item object (optional)
+  - show_secondary_image: {Boolean} Show the secondary image on hover. Default: false (optional)
+  - section_id: {String} The ID of the section that contains this card.
+  - image_ratio: {String} Size of the product image card. Default: 100
+  - image_fill_type {String} Product image filling method
+  - desktop_grid_cols: {Number}
+  - mobile_grid_cols: {Number}
+  - lazy_load: {Boolean} Image should be lazy loaded.
+  - theme_settings: {Object} theme settings
+  - blocks: {Object} blocks settings
+
+  Usage:
+  {{ snippet 'product-card' }}
+{{/comment}}
+
+
+
+
+
+
+{{assign "image_ratio" (default image_ratio 100)}}
+
+{{assign "product_form_id" (append "quick-add-" section_id "__" product_data.id)}}
+
+{{#and (if image_ratio "===" "adapt") product_data.featured_media}}
+  {{assign
+    "image_ratio"
+    (ternary product_data.featured_media.aspect_ratio (divide 100 product_data.featured_media.aspect_ratio) 100)
+  }}
+{{else}}
+  {{#if (if image_ratio "===" "adapt")}}
+    
+    {{assign "image_ratio" 100}}
+  {{/if}}
+{{/and}}
+
+
+{{#unless product_data}}
+  {{assign "image_ratio" 100}}
+{{/unless}}
+
+{{assign "jump_link" product_data.url}}
+
+<div class="product-card-wrapper card card-wrapper" data-product-form-id="{{product_form_id}}">
+  <a {{#if jump_link}}href="{{jump_link}}"{{else}}href="javascript:;"{{/if}} class="full-unstyled-link">
+    <span class="visibility-hidden">
+      {{#if product_data}}
+        {{product_data.title}}
+      {{else}}
+        {{t "onboarding.product_title"}}
+      {{/if}}
+    </span>
+  </a>
+  {{#if blocks}}
+    {{#with this as |current_card|}}
+      {{#each current_card.blocks as |block_item|}}
+        {{#if block_item.type "image"}}
+          {{snippet
+            "product-card-image"
+            product_data=current_card.product_data
+            section_id=current_card.section_id
+            image_ratio=current_card.image_ratio
+            image_fill_type=current_card.image_fill_type
+            show_secondary_image=current_card.show_secondary_image
+            desktop_grid_cols=current_card.desktop_grid_cols
+            mobile_grid_cols=current_card.mobile_grid_cols
+            lazy_load=current_card.lazy_load
+            theme_settings=current_card.theme_settings
+            shopline_attributes=shopline_attributes
+          }}
+        {{/if}}
+
+        {{#if block_item.type "title"}}
+          {{snippet
+            "product-card-title"
+            theme_settings=current_card.theme_settings
+            product_data=current_card.product_data
+            shopline_attributes=shopline_attributes
+          }}
+        {{/if}}
+
+        {{#if block_item.type "price"}}
+          {{snippet "price" product=current_card.product_data price_class="product-card-block-item"}}
+        {{/if}}
+
+        {{#and (if block_item.type "highlight") current_card.product_data.metafields.highlights.list.value}}
+          <div {{{shopline_attributes}}} class="product-card-block-item body3 fw-bold card__highlight">
+            {{newline_to_br current_card.product_data.metafields.highlights.list.value}}
+          </div>
+        {{/and}}
+
+        {{#and (if block_item.type "text") block_item.settings.text}}
+          <p {{{shopline_attributes}}} class="product-card-block-item body3">
+            {{block_item.settings.text}}
+          </p>
+        {{/and}}
+
+        {{#if block_item.type "divider"}}
+          <div {{{shopline_attributes}}} class="product-card-block-item card__divider"></div>
+        {{/if}}
+
+        {{#and (if block_item.type "brand") current_card.product_data.vendor}}
+          <p {{{shopline_attributes}}} class="product-card-block-item body3">
+            {{current_card.product_data.vendor}}
+          </p>
+        {{/and}}
+
+        {{#and (if block_item.type "sku") current_card.product_data.selected_or_first_available_variant.sku}}
+          <p {{{shopline_attributes}}} class="product-card-block-item body3">
+            SKU:
+            {{current_card.product_data.selected_or_first_available_variant.sku}}
+          </p>
+        {{/and}}
+
+        {{#and
+          (if block_item.type "quick_add_button")
+          current_card.theme_settings.enable_quick_view
+          (if current_card.theme_settings.quick_view_button_pc_style "button")
+          current_card.product_data
+          current_card.product_data.available
+        }}
+          {{snippet "product-card-qv-button" product_data=current_card.product_data section_id=current_card.section_id}}
+        {{/and}}
+      {{/each}}
+    {{/with}}
+  {{else}}
+    
+    {{snippet
+      "product-card-image"
+      product_data=product_data
+      section_id=section_id
+      image_ratio=image_ratio
+      image_fill_type=image_fill_type
+      show_secondary_image=show_secondary_image
+      desktop_grid_cols=desktop_grid_cols
+      mobile_grid_cols=mobile_grid_cols
+      lazy_load=lazy_load
+      theme_settings=theme_settings
+    }}
+
+    {{snippet "product-card-title" theme_settings=theme_settings product_data=product_data}}
+
+    {{snippet "price" product=product_data price_class="product-card-block-item"}}
+
+    {{#and
+      theme_settings.enable_quick_view
+      (if theme_settings.quick_view_button_pc_style "button")
+      product_data
+      product_data.available
+    }}
+      {{snippet "product-card-qv-button" product_data=product_data section_id=section_id}}
+    {{/and}}
+  {{/if}}
+  {{#and theme_settings.enable_quick_view}}
+    <quick-add-modal id="QuickAdd-{{product_data.id}}">
+      <details>
+        <summary class="display-none"></summary>
+        <div class="modal__overlay"></div>
+        <div class="modal__content quick-add-modal__content">
+          <button id="ModalClose-{{product_data.id}}" type="button" class="quick-add-modal__toggle" name="close">
+            {{snippet "icon-close"}}
+          </button>
+          <div id="QuickAddInfo-{{product_data.id}}" class="quick-add-modal__content-info"></div>
+        </div>
+      </details>
+    </quick-add-modal>
+  {{/and}}
+</div>

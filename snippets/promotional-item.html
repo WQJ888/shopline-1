@@ -1,0 +1,28 @@
+{{assign "icon_valid" (if block.settings.icon "!==" "none")}}
+
+<div class="promo-item promo-item-{{index}} promo-item--layout-{{block.settings.text_position}}">
+  <div class="promo-item__background">
+    {{#if block.settings.image}}
+      {{snippet "image" data=block.settings.image}}
+    {{else}}
+      {{placeholder_svg_tag "image" "placeholder"}}
+    {{/if}}
+  </div>
+  {{#or block.settings.text icon_valid block.settings.custom_icon}}
+    <div class="promo-item__content {{#if block.settings.show_text_background}}promo-item__content--background{{/if}}">
+      <div class="promo-item__text title4">{{{block.settings.text}}}</div>
+      {{#or block.settings.custom_icon icon_valid}}
+        <div class="promo-item__icon">
+          {{#if block.settings.custom_icon}}
+            {{snippet "image" data=block.settings.custom_icon}}
+          {{else if icon_valid}}
+            {{snippet "icon-switch" icon=block.settings.icon}}
+          {{/if}}
+        </div>
+      {{/or}}
+    </div>
+  {{/or}}
+  {{#if block.settings.link}}
+    <a class="promo-item__link" href="{{block.settings.link}}"></a>
+  {{/if}}
+</div>

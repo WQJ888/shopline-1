@@ -1,0 +1,78 @@
+
+
+
+
+{{assign "is_img_col2" false}}
+{{#if has_img}}
+  {{#and show_img1 show_img2}}
+    {{#and (if menu_block.settings.image_1_position "!==" menu_block.settings.image_2_position)}}
+      {{assign "is_img_col2" true}}
+    {{/and}}
+  {{/and}}
+  {{#and show_img1 show_img3}}
+    {{#and (if menu_block.settings.image_1_position "!==" menu_block.settings.image_3_position)}}
+      {{assign "is_img_col2" true}}
+    {{/and}}
+  {{/and}}
+  {{#and show_img2 show_img3}}
+    {{#and (if menu_block.settings.image_2_position "!==" menu_block.settings.image_3_position)}}
+      {{assign "is_img_col2" true}}
+    {{/and}}
+  {{/and}}
+{{/if}}
+
+{{assign "col" 6}}
+{{assign "col_arr" (JSONparse "[0,1,2,3,4,5]")}}
+
+{{#if has_img}}
+  {{#if is_img_col2}}
+    {{assign "col" 2}}
+    {{assign "col_arr" (JSONparse "[0,1]")}}
+  {{else}}
+    {{assign "col" 4}}
+    {{assign "col_arr" (JSONparse "[0,1,2,3]")}}
+  {{/if}}
+{{/if}}
+<ul class="megamenu__list">
+  {{#each col_arr as |i|}}
+    <li class="megamenu-list__item">
+      {{#each ../links}}
+        {{assign "j" @index}}
+        {{assign "col" ../../col}}
+        {{#if (modulo j col) "===" i}}
+          <div class="megamenu-list__item_box">
+            {{#if (length links) ">" 0}}
+              <a
+                class="megamenu-list__item-title menus__link
+                  {{../../body_pc_second_font_size}}
+                  {{#if ../../body_pc_second_font_bold}}fw-bold{{/if}}"
+                {{#if url}}href="{{url}}"{{else}}href="javascript:;"{{/if}}
+              >
+                {{title}}
+              </a>
+              <ul class="megamenu-list__submenu list-unstyled">
+                {{#each links}}
+                  <li class="megamenu-submenu__item">
+                    <a
+                      class="menus__link {{../../body_pc_thirdly_font_size}}"
+                      {{#if url}}href="{{url}}"{{else}}href="javascript:;"{{/if}}
+                    >{{title}}</a>
+                  </li>
+                {{/each}}
+              </ul>
+            {{else}}
+              <a
+                class="megamenu-list__item-title menus__link
+                  {{../../body_pc_second_font_size}}
+                  {{#if ../../body_pc_second_font_bold}}fw-bold{{/if}}"
+                {{#if url}}href="{{url}}"{{else}}href="javascript:;"{{/if}}
+              >
+                {{title}}
+              </a>
+            {{/if}}
+          </div>
+        {{/if}}
+      {{/each}}
+    </li>
+  {{/each}}
+</ul>

@@ -1,0 +1,92 @@
+<div
+  {{{shopline_attributes}}}
+  class="product-card-block-item card__inner ratio global-product-card-border-shadow"
+  style="--ratio-percent: {{image_ratio}}%; --image-fill-type: {{image_fill_type}}; --badge-border-radius: {{theme_settings.product_discount_radius}}px;"
+>
+  <a href="{{#if jump_link}}{{jump_link}}{{else}}javascript:;{{/if}}" class="card__media media--hover-effect">
+    {{#if product_data.featured_media}}
+      {{snippet
+        "image"
+        data=product_data.featured_media
+        lazy=lazy_load
+        pc_size=(append "1/" desktop_grid_cols)
+        mobile_size=(append "1/" mobile_grid_cols)
+        class="collection-hero__image"
+      }}
+      {{#and product_data.media.[1] show_secondary_image}}
+        {{snippet
+          "image"
+          data=product_data.media.[1]
+          lazy=lazy_load
+          pc_size=(append "1/" desktop_grid_cols)
+          mobile_size=(append "1/" mobile_grid_cols)
+          class="collection-hero__image"
+        }}
+      {{/and}}
+    {{else}}
+      
+      <div class="placeholder">
+        {{placeholder_svg_tag "image"}}
+      </div>
+    {{/if}}
+  </a>
+  {{#if theme_settings.product_discount_size "==" "mini"}}
+    {{assign "tag_class" "body5 fw-bold"}}
+    {{assign "card_badge_class" "card__badge--mini"}}
+  {{else}}
+    {{assign "tag_class" "body4 fw-bold"}}
+  {{/if}}
+  <div
+    class="card__badge
+      {{theme_settings.product_discount_position}}
+      {{card_badge_class}}
+      {{#unless product_data.available}}sold-out-message{{/unless}}"
+  >
+    {{~#unless product_data.available}}
+      <span class="{{tag_class}}">
+        {{t "transaction.item.sold_out"}}
+      </span>
+    {{/unless~}}
+    {{~#and
+      product_data.available
+      (if product_data.compare_at_price ">" product_data.price)
+      theme_settings.product_discount
+    }}
+      <span class="{{tag_class}}">
+        {{#case theme_settings.product_discount_tag_style}}
+          {{#when "sale"}}
+            {{t "products.product_list.sale"}}
+          {{else}}
+            {{assign "discount_price" (minus product_data.compare_at_price product_data.price)}}
+            {{assign
+              "discount_ratio"
+              (divide (divided_by (times discount_price 10000) product_data.compare_at_price) 100)
+            }}
+            {{#if theme_settings.product_discount_style "===" "number"}}
+              {{{t "products.product_list.save_byjs" priceDom=(money_with_currency discount_price)}}}
+            {{else}}
+              {{t "products.product_list.save_ratio" price=discount_ratio}}
+            {{/if}}
+          {{/when}}
+        {{/case}}
+      </span>
+    {{/and~}}
+  </div>
+  {{#and theme_settings.enable_quick_view product_data product_data.available}}
+    <div class="quick-add {{#if theme_settings.quick_view_button_pc_style 'button'}}display-none-desktop{{/if}}">
+      {{assign "product_form_id" (append "quick-add-" section_id "__" product_data.id)}}
+      <modal-opener data-modal="#QuickAdd-{{product_data.id}}">
+        <button
+          id="{{product_form_id}}-submit"
+          type="submit"
+          name="add"
+          class="quick-add__opener"
+          data-product-url="{{product_data.url}}"
+        >
+          <i class="loading-hidden">{{snippet "icon-add-cart"}}</i>
+          {{snippet "loading-overlay-spinner"}}
+        </button>
+      </modal-opener>
+    </div>
+  {{/and}}
+</div>
