@@ -1,6 +1,7 @@
 {
   "sections": {
     "main-product-info": {
+      "disabled": false,
       "type": "main-product",
       "settings": {
         "product_info_sticky": true,
@@ -34,16 +35,20 @@
         "block_4": {
           "type": "variant_picker",
           "settings": {
-            "picker_type": "flatten",
-            "enabled_color_swatch": true,
-            "color_swatch_type": "square",
+            "picker_type": "select",
             "sizes": "medium",
-            "layout_direction": "row"
+            "layout_direction": "column",
+            "enabled_color_swatch": true,
+            "color_swatch_type": "round_corner"
           }
         },
         "block_5": {
           "type": "quantity_selector",
-          "settings": {}
+          "settings": {
+            "width": "full",
+            "layout_direction": "row",
+            "border_style": "none"
+          }
         },
         "block_6": {
           "type": "buy_buttons",
@@ -102,10 +107,12 @@
         "block_10",
         "block_11",
         "block_12"
-      ]
+      ],
+      "custom_css": []
     },
     "product-recommendations": {
       "type": "product-recommendations",
+      "disabled": false,
       "settings": {
         "show_product_number": 6,
         "pc_cols": 4,
@@ -131,8 +138,188 @@
           "settings": {}
         }
       },
-      "block_order": ["block-1", "block-2", "block-3"]
+      "block_order": [
+        "block-1",
+        "block-2",
+        "block-3"
+      ]
+    },
+    "1717513110051445dd5b": {
+      "disabled": false,
+      "type": "combine-shoppable-image",
+      "settings": {
+        "text_title": "Goodsilron",
+        "description": "Combining shopping pictures can well display your products according to the scene, which is very suitable for home furnishing and other categories of supermarkets.",
+        "button_text": "view all",
+        "show_columns": 2,
+        "image_ratio": "100%",
+        "anchor_quick_view": false,
+        "anchor_show_type": "click",
+        "padding_top": 60,
+        "padding_bottom": 60
+      },
+      "blocks": {
+        "171751311005113f15cd": {
+          "type": "image",
+          "settings": {
+            "product_butotn_text": "View product",
+            "horizontal_axis_position1": 25,
+            "vertical_axis_position1": 50,
+            "horizontal_axis_position2": 50,
+            "vertical_axis_position2": 50,
+            "horizontal_axis_position3": 75,
+            "vertical_axis_position3": 50,
+            "horizontal_axis_position4": 75,
+            "vertical_axis_position4": 25,
+            "horizontal_axis_position5": 50,
+            "vertical_axis_position5": 25
+          },
+          "blockId": "171751311005113f15cd"
+        },
+        "171751311005146dc655": {
+          "type": "image",
+          "settings": {
+            "product_butotn_text": "View product",
+            "horizontal_axis_position1": 25,
+            "vertical_axis_position1": 50,
+            "horizontal_axis_position2": 50,
+            "vertical_axis_position2": 50,
+            "horizontal_axis_position3": 75,
+            "vertical_axis_position3": 50,
+            "horizontal_axis_position4": 75,
+            "vertical_axis_position4": 25,
+            "horizontal_axis_position5": 50,
+            "vertical_axis_position5": 25
+          },
+          "blockId": "171751311005146dc655"
+        },
+        "17175131100515d33ab0": {
+          "type": "image",
+          "settings": {
+            "product_butotn_text": "View product",
+            "horizontal_axis_position1": 25,
+            "vertical_axis_position1": 50,
+            "horizontal_axis_position2": 50,
+            "vertical_axis_position2": 50,
+            "horizontal_axis_position3": 75,
+            "vertical_axis_position3": 50,
+            "horizontal_axis_position4": 75,
+            "vertical_axis_position4": 25,
+            "horizontal_axis_position5": 50,
+            "vertical_axis_position5": 25
+          },
+          "blockId": "17175131100515d33ab0"
+        },
+        "17175131100515de8d83": {
+          "type": "image",
+          "settings": {
+            "product_butotn_text": "View product",
+            "horizontal_axis_position1": 25,
+            "vertical_axis_position1": 50,
+            "horizontal_axis_position2": 50,
+            "vertical_axis_position2": 50,
+            "horizontal_axis_position3": 75,
+            "vertical_axis_position3": 50,
+            "horizontal_axis_position4": 75,
+            "vertical_axis_position4": 25,
+            "horizontal_axis_position5": 50,
+            "vertical_axis_position5": 25
+          },
+          "blockId": "17175131100515de8d83"
+        }
+      },
+      "block_order": [
+        "171751311005113f15cd",
+        "171751311005146dc655",
+        "17175131100515d33ab0",
+        "17175131100515de8d83"
+      ]
+    },
+    "1717513133418e33da18": {
+      "disabled": false,
+      "type": "logo-list",
+      "settings": {
+        "width": "full",
+        "layout": "vertical",
+        "font_color": "#000000",
+        "icon_color": "#122D47",
+        "background_color": "#ECF0F4",
+        "mobile_display": "grid",
+        "style_card": false,
+        "padding_top": 60,
+        "padding_bottom": 60
+      },
+      "blocks": {
+        "17175131334183caa662": {
+          "type": "icon",
+          "icon": "image",
+          "settings": {
+            "icon": "logistics",
+            "image": null,
+            "title": "Free shipping",
+            "subtitle": "Capped at $50 per order.",
+            "link": ""
+          },
+          "blockId": "17175131334183caa662"
+        },
+        "171751313341834bdc3e": {
+          "type": "icon",
+          "icon": "image",
+          "settings": {
+            "icon": "chat",
+            "title": "Chat with us",
+            "subtitle": "We offer 24-hour chat support.",
+            "link": ""
+          },
+          "blockId": "171751313341834bdc3e"
+        },
+        "17175131334180d476a6": {
+          "type": "icon",
+          "icon": "image",
+          "settings": {
+            "icon": "pay",
+            "title": "Securety payments",
+            "subtitle": "Up to 12 months installments.",
+            "link": ""
+          },
+          "blockId": "17175131334180d476a6"
+        },
+        "17175131334189c296a1": {
+          "type": "icon",
+          "icon": "image",
+          "settings": {
+            "icon": "package",
+            "title": "14-day returns",
+            "subtitle": "Shop with confidence.",
+            "link": ""
+          },
+          "blockId": "17175131334189c296a1"
+        }
+      },
+      "block_order": [
+        "17175131334183caa662",
+        "171751313341834bdc3e",
+        "17175131334180d476a6",
+        "17175131334189c296a1"
+      ],
+      "custom_css": []
+    },
+    "17175131673715dbc3b7": {
+      "disabled": false,
+      "type": "custom-page",
+      "settings": {
+        "page": "",
+        "heading_size": "title3",
+        "color_scheme": "none",
+        "padding_top": 80,
+        "padding_bottom": 80
+      },
+      "blocks": {},
+      "block_order": []
     }
   },
-  "order": ["main-product-info", "product-recommendations"]
+  "order": [
+    "main-product-info",
+    "product-recommendations"
+  ]
 }
